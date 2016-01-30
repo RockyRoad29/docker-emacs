@@ -1,0 +1,10 @@
+#!/bin/sh
+
+USER1=user1
+mkdir spacemacs && cd $_
+tar xJvf ../user-profile.tar.xz
+# if needed: mv user1 $USER1
+cd $USER1
+git clone --depth 1 https://github.com/syl20bnr/spacemacs .emacs.d
+cd .emacs.d
+git checkout -b $USER1

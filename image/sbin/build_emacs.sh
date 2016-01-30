@@ -3,10 +3,10 @@
 EMACS_VERSION=${1-24.5}
 cd /usr/local/src
 
-if [[ ! -d emacs-$EMACS_VERSION  ]]; then
+if [ ! -d emacs-$EMACS_VERSION  ]; then
     archive=/var/local/dnlds/emacs-$EMACS_VERSION.tar.xz
     echo Extracting $archive in `pwd`
-    [[ -f "$archive" ]] && tar xJf $archive 
+    [ -f "$archive" ] && tar xJf $archive 
 fi
 cd emacs-$EMACS_VERSION
 echo Building `pwd`

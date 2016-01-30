@@ -25,7 +25,7 @@ ADD sbin/ /usr/local/sbin/
 # Activate root account if password provided
 ARG pass
 
-RUN /usr/local/bin/setpass.sh $pass
+RUN /usr/local/sbin/setpass.sh $pass
 
 # save bandwidth by using local copies if possible
 ADD dnlds/ /var/local/dnlds/
@@ -41,7 +41,7 @@ ENV HOME /home/$USER1
 
 # port usable for emacs server
 EXPOSE 10024
-VOLUME /home
+VOLUME /home/$USER1
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

@@ -21,22 +21,44 @@ A user with `uid=1000` is created and used.
 If you need to tweak the container, you may enable the root account
 (see below).
 
+## User enviroment
+You can grab it from a container
+
+	docker run -it  --entrypoint /bin/bash rockyroad/emacs
+
+From there check the contents of user1's home and exit.
+
+	docker cp `docker ps -lq`:/home/user1 .
+
+Clean the dummy container:
+
+	docker rm `docker ps -lq`
+
+... or simply extract the provided `user-profile.tar.xz`
+
 ## Example: test spacemacs
 the latest version
 of spacemacs is cloned from github into her home directory.
 
 	USER1=user1
-	mkdir -p spacemacs/$USER1 && cd $_
+	mkdir spacemacs && cd $_
+	tar xJvf ../user-profile.tar.xz
+	# if needed: mv user1 $USER1
+	cd $USER1
 	git clone --depth 1 https://github.com/syl20bnr/spacemacs .emacs.d
 	cd .emacs.d
 	git checkout -b $USER1
-	cd ../..
-	
-	docker run -it --name spacemacs \
+	cd ..
+	# pwd = spacemacs/$USER1
+	docker run -it --name spacemacs1 \
     -e DISPLAY=$DISPLAY \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -v `pwd`:/home \
+    -v `pwd`:/home/$USER1 \
     rockyroad/emacs
+
+You don't have to keep the container because all your data
+is in your mounted home directory.
+Just keep of the emacs version used with it.
 
 ## Building the image
 First `cd` to the directory where the `Dockerfile` is.
@@ -112,6 +134,14 @@ Override entrypoint with e.g.:
 	--entrypoint /bin/bash \
 	--user root \
     rockyroad/emacs
+
+### FIXME my_init loaded in emacs
+Likely because of the lines recommended in `phusion/passenger`:
+
+	# Use baseimage-docker's init process.
+	CMD ["/sbin/my_init"]
+
+Misunderstood it :-!
 
 ## Relevant links
   * base docker image: [phusion/passenger-full][passenger-docker]
