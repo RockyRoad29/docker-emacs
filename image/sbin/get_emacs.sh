@@ -7,7 +7,7 @@ archive=emacs-$EMACS_VERSION.tar.xz
 cd /var/local/dnlds
 
 # get the keyring: check the address at ftp://ftp.gnu.org/README
-#FIXME temp disable curl -L -O ftp://ftp.gnu.org/gnu/gnu-keyring.gpg 
+curl -L -O ftp://ftp.gnu.org/gnu/gnu-keyring.gpg 
 
 # get the source code if no local copy available
 if [ ! -f $archive ]; then
